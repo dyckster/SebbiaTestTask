@@ -2,7 +2,6 @@ package com.example.dyckster.sebbiatesttask.api;
 
 import android.support.annotation.Nullable;
 import android.util.Log;
-import android.view.View;
 
 import com.example.dyckster.sebbiatesttask.SebbiaTestTaskApplication;
 import com.koushikdutta.async.future.FutureCallback;
@@ -13,12 +12,8 @@ import com.koushikdutta.ion.builder.Builders;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.Map;
 
-/**
- * Created by dyckster on 14.11.2016.
- */
 
 public class RestCall {
     private final static String API_LINK = "http://testtask.sebbia.com";
@@ -30,7 +25,7 @@ public class RestCall {
         //Set Body
         if (bodyParams != null) {
             for (String body : bodyParams.keySet()) {
-                builder.setBodyParameter(body, bodyParams.get(body));
+                builder.addQuery(body, bodyParams.get(body));
             }
         }
         builder.asString()
@@ -45,7 +40,7 @@ public class RestCall {
                                 if (code < 400) {
                                     listener.onSuccess(obj);
                                 } else {
-                                    //listener.onError(ApiError.getError(obj));
+                                    listener.onError();
                                 }
                             } catch (JSONException e1) {
                                 e1.printStackTrace();

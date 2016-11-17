@@ -1,4 +1,4 @@
-package com.example.dyckster.sebbiatesttask.model;
+package com.example.dyckster.sebbiatesttask.ui.adapters;
 
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.dyckster.sebbiatesttask.R;
+import com.example.dyckster.sebbiatesttask.model.NewsListItem;
 import com.example.dyckster.sebbiatesttask.tools.TimeUtil;
 import com.example.dyckster.sebbiatesttask.ui.NewsDetailsFragment;
 import com.example.dyckster.sebbiatesttask.ui.OnFragmentChange;
@@ -19,11 +20,11 @@ import java.util.List;
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
     private List<NewsListItem> newsListItems;
-    private OnFragmentChange listener;
+    private OnFragmentChange onFragmentChangeListener;
 
-    public NewsAdapter(ArrayList<NewsListItem> newsListItems, OnFragmentChange listener) {
+    public NewsAdapter(ArrayList<NewsListItem> newsListItems, OnFragmentChange onFragmentChangeListener) {
         this.newsListItems = newsListItems;
-        this.listener = listener;
+        this.onFragmentChangeListener = onFragmentChangeListener;
     }
 
     @Override
@@ -41,7 +42,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                listener.onFragmentChange(new NewsDetailsFragment().newInstance(newsListItem.getId(), newsListItem.getTitle(), newsListItem.getShortDescription(), holder.dateTextView.getText().toString()));
+                onFragmentChangeListener.onFragmentChange(new NewsDetailsFragment().newInstance(newsListItem.getId(), newsListItem.getTitle(), newsListItem.getShortDescription(), holder.dateTextView.getText().toString()));
             }
         });
 
@@ -66,5 +67,10 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
             newsTitle = (TextView) itemView.findViewById(R.id.title_listed_item);
             newsDescription = (TextView) itemView.findViewById(R.id.description_listed_news);
         }
+    }
+
+    public void addItems(List<NewsListItem> items) {
+        newsListItems.addAll(items);
+        this.notifyDataSetChanged();
     }
 }

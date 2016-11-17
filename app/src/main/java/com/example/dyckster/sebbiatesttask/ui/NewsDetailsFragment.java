@@ -1,6 +1,5 @@
 package com.example.dyckster.sebbiatesttask.ui;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -19,6 +18,9 @@ import com.google.gson.Gson;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class NewsDetailsFragment extends Fragment {
@@ -79,10 +81,14 @@ public class NewsDetailsFragment extends Fragment {
     }
 
     private void callNews() {
-        RestCall.apiCall(Method.GET_DETAILS, newsId, null, new RestCall.OnRestCallListener() {
+        Map<String, String> body = new HashMap<>();
+        body.put("id", newsId);
+
+        RestCall.apiCall(Method.GET_DETAILS, null, body, new RestCall.OnRestCallListener() {
             @Override
             public void onSuccess(JSONObject object) throws JSONException {
                 Gson gson = new Gson();
+
                 News news = gson.fromJson(object.getString("news"), News.class);
                 fullDescriptionTextView.setText(Html.fromHtml(news.getFullDescription()));
             }

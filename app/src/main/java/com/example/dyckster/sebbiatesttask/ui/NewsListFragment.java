@@ -13,9 +13,9 @@ import android.view.ViewGroup;
 import com.example.dyckster.sebbiatesttask.R;
 import com.example.dyckster.sebbiatesttask.api.Method;
 import com.example.dyckster.sebbiatesttask.api.RestCall;
-import com.example.dyckster.sebbiatesttask.model.NewsAdapter;
 import com.example.dyckster.sebbiatesttask.model.NewsList;
 import com.example.dyckster.sebbiatesttask.tools.EndlessRecyclerViewScrollListener;
+import com.example.dyckster.sebbiatesttask.ui.adapters.NewsAdapter;
 import com.google.gson.Gson;
 
 import org.json.JSONException;
@@ -30,7 +30,7 @@ public class NewsListFragment extends Fragment {
 
     private String categoryId;
 
-    private OnFragmentChange mListener;
+    private OnFragmentChange onFragmentChangeListener;
 
     private NewsAdapter newsAdapter;
     private RecyclerView recyclerView;
@@ -66,28 +66,34 @@ public class NewsListFragment extends Fragment {
     }
 
 
-    private void listNews(long page) {
+    private void listNews(final long page) {
         HashMap<String, String> bodyParams = new HashMap<>();
         bodyParams.put("page", String.valueOf(page));
         RestCall.apiCall(Method.GET_NEWS_LIST, categoryId, bodyParams, new RestCall.OnRestCallListener() {
-            @Override
-            public void onSuccess(JSONObject object) throws JSONException {
-                Gson gson = new Gson();
-                NewsList newsList = gson.fromJson(object.toString(), NewsList.class);
-                newsAdapter = new NewsAdapter(newsList.getList(), mListener);
-                recyclerView.setAdapter(newsAdapter);
-            }
+                    @Override
+                    public void onSuccess(JSONObject object) throws JSONException {
+                        Gson gson = new Gson();
+                        NewsList newsList = gson.fromJson(object.toString(), NewsList.class);
+                        if (page == 0) {
+                            newsAdapter = new NewsAdapter(newsList.getList(), onFragmentChangeListener);
+                            recyclerView.setAdapter(newsAdapter);
+                        } else {
+                            newsAdapter.addItems(newsList.getList());
+                        }
+                    }
 
-            @Override
-            public void onError() {
+                    @Override
+                    public void onError() {
 
-            }
+                    }
 
-            @Override
-            public void onConnectionError() {
+                    @Override
+                    public void onConnectionError() {
 
-            }
-        });
+                    }
+                }
+
+        );
     }
 
     private void setupRecyclerView() {
@@ -114,7 +120,7 @@ public class NewsListFragment extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         if (context instanceof OnFragmentChange) {
-            mListener = (OnFragmentChange) context;
+            onFragmentChangeListener = (OnFragmentChange) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
@@ -124,7 +130,7 @@ public class NewsListFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
-        mListener = null;
+        onFragmentChangeListener = null;
     }
 
 

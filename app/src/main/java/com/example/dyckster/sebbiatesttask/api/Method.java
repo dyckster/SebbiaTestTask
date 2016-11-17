@@ -7,7 +7,7 @@ package com.example.dyckster.sebbiatesttask.api;
 public enum Method {
     GET_CATEGORIES(HttpMethod.GET, "/v1/news/categories"),
     GET_NEWS_LIST(HttpMethod.GET, "/v1/news/categories/%s/news"),
-    GET_DETAILS(HttpMethod.GET, "/v1/news/details?id=%s");
+    GET_DETAILS(HttpMethod.GET, "/v1/news/details/");
 
     private String path;
     private HttpMethod httpMethod;

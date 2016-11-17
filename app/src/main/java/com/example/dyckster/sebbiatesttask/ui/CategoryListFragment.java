@@ -6,7 +6,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,16 +14,12 @@ import android.widget.Toast;
 import com.example.dyckster.sebbiatesttask.R;
 import com.example.dyckster.sebbiatesttask.api.Method;
 import com.example.dyckster.sebbiatesttask.api.RestCall;
-import com.example.dyckster.sebbiatesttask.model.CategoriesAdapter;
 import com.example.dyckster.sebbiatesttask.model.CategoriesList;
-import com.example.dyckster.sebbiatesttask.model.Category;
+import com.example.dyckster.sebbiatesttask.ui.adapters.CategoriesAdapter;
 import com.google.gson.Gson;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class CategoryListFragment extends Fragment {
 
