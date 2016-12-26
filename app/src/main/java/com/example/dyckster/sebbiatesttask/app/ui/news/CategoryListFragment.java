@@ -19,9 +19,10 @@ import com.example.dyckster.sebbiatesttask.app.api.ServerError;
 import com.example.dyckster.sebbiatesttask.app.model.UpdatableModel;
 import com.example.dyckster.sebbiatesttask.app.model.news.CategoriesList;
 import com.example.dyckster.sebbiatesttask.app.ui.OnFragmentChange;
+import com.example.dyckster.sebbiatesttask.app.ui.UpdatableListFragment;
 import com.example.dyckster.sebbiatesttask.app.ui.adapters.CategoriesAdapter;
 
-public class CategoryListFragment extends Fragment {
+public class CategoryListFragment extends UpdatableListFragment<CategoriesList> {
 
     private CategoriesAdapter categoriesAdapter;
     private OnFragmentChange onFragmentChangeListener;
@@ -37,6 +38,16 @@ public class CategoryListFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_category_list, container, false);
+    }
+
+    @Override
+    protected CategoriesList getUpdatableModel() {
+        return CategoriesList.getInstance();
+    }
+
+    @Override
+    protected void updateView(CategoriesList updatableModel) {
+        categoriesAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -81,7 +92,7 @@ public class CategoryListFragment extends Fragment {
 
     private void setupRecyclerView(final RecyclerView recyclerView) {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        if (CategoriesList.getInstance().needsUpdate()){
+        if (CategoriesList.getInstance().needsUpdate()) {
             CategoriesList.getInstance().update(true);
             CategoriesList.getInstance().addListener(new UpdatableModel.UpdateListener<UpdatableModel>() {
                 @Override
@@ -91,12 +102,12 @@ public class CategoryListFragment extends Fragment {
 
                 @Override
                 public void onUpdated(UpdatableModel updatableModel, boolean success, ServerError error) {
-                    recyclerView.setAdapter(new CategoriesAdapter(CategoriesList.getInstance().getCategories(),onFragmentChangeListener));
+                    recyclerView.setAdapter(new CategoriesAdapter(CategoriesList.getInstance().getCategories(), onFragmentChangeListener));
 
                 }
             });
-        }else {
-            recyclerView.setAdapter(new CategoriesAdapter(CategoriesList.getInstance().getCategories(),onFragmentChangeListener));
+        } else {
+            recyclerView.setAdapter(new CategoriesAdapter(CategoriesList.getInstance().getCategories(), onFragmentChangeListener));
         }
     }
 

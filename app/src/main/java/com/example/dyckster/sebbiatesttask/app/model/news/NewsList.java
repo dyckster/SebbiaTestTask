@@ -28,15 +28,20 @@ public class NewsList extends PageableModel<CompactNews> {
     public static final int PAGE_SIZE = 10;
     private List<CompactNews> news;
 
-    private String categoryId;
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    private Category category;
+
+    public NewsList(Category category){
+        this.category = category;
+    }
 
     public List<CompactNews> getList() {
         return news;
     }
 
-    public void setList(ArrayList<CompactNews> list) {
-        this.news = list;
-    }
 
     @Override
     public boolean hasMore() {
@@ -77,7 +82,7 @@ public class NewsList extends PageableModel<CompactNews> {
 
     private Request getRequest(int nextPage) throws JSONException {
         Map<String, String> param = new HashMap<>();
-        param.put("id", categoryId);
+        param.put("id", String.valueOf(category.getCategoryId()));
         param.put("page", String.valueOf(nextPage));
         return new Request(Method.GET_NEWS_LIST, param);
     }
@@ -87,7 +92,7 @@ public class NewsList extends PageableModel<CompactNews> {
         try {
             return getRequest(FIRST_PAGE);
         } catch (JSONException e) {
-            e.printStackTrace();
+            Log.e("Error!");
         }
         return null;
     }
@@ -120,6 +125,15 @@ public class NewsList extends PageableModel<CompactNews> {
 
     public static class OrderConnections extends OneToManyRelation<NewsList, CompactNews> {
 
+    }
+
+    public static NewsList getInstance() {
+
+        return null;
+    }
+
+    public static NewsList getInstance(Category category) {
+        return null;
     }
 }
 

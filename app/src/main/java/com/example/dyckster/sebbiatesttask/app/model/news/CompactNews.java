@@ -25,6 +25,11 @@ public class CompactNews extends Model {
     @Column(name = "description")
     String shortDesc;
 
+    public enum ViewType{
+        COMMON,
+        LOAD_MORE
+    }
+
     public String getTitle() {
         return title;
     }
@@ -61,5 +66,6 @@ public class CompactNews extends Model {
         this.title = ParseUtils.objToStr(object.get("title"));
         this.shortDesc = ParseUtils.objToStr(object.get("shortDescription"));
         this.date = TimeUtil.getFormattedDate(ParseUtils.objToStr(object.get("date")));
+        // TODO: 26.12.16 use .has
     }
 }

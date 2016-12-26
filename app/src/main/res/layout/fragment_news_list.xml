@@ -5,7 +5,7 @@
     tools:context=".app.ui.NewsListFragment">
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_news"
+        android:id="@+id/items"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
