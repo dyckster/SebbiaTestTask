@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.example.dyckster.sebbiatesttask.ui.NewsDetailsFragment">
+    tools:context=".app.ui.NewsDetailsFragment">
 
     <TextView
         android:id="@+id/text_news_title"

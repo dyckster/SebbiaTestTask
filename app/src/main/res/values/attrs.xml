@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="AspectLockedFrameLayout">
+        <attr name="aspectRation" format="dimension" />
+    </declare-styleable>
+    <declare-styleable name="AspectLockedImageView">
+        <attr name="aspectRatio" format="dimension" />
+    </declare-styleable>
+
+    <declare-styleable name="Font">
+        <attr name="font" format="string" />
+        <attr name="scales" format="boolean" />
+    </declare-styleable>
+
+    <declare-styleable name="TextViewPlus">
+        <attr name="rightImagePaddingHeight" format="dimension" />
+        <attr name="rightImagePaddingWidth" format="dimension" />
+    </declare-styleable>
+
+    <declare-styleable name="AdCampaignActionButton">
+        <attr name="image" format="reference" />
+        <attr name="text" format="string" />
+    </declare-styleable>
+
+    <declare-styleable name="CustomSeekBar">
+        <attr name="step" format="integer" />
+        <attr name="isSingle" format="boolean" />
+        <attr name="maxValue" format="integer" />
+        <attr name="minValue" format="integer" />
+    </declare-styleable>
+</resources>

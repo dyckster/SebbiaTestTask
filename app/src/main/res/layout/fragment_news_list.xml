@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.dyckster.sebbiatesttask.ui.NewsListFragment">
+    tools:context=".app.ui.NewsListFragment">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_news"

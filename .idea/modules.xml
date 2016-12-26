@@ -2,8 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/SebbiaTestTask.iml" filepath="$PROJECT_DIR$/SebbiaTestTask.iml" />
+      <module fileurl="file://$PROJECT_DIR$/activeAndroid-sebbia/activeAndroid-sebbia.iml" filepath="$PROJECT_DIR$/activeAndroid-sebbia/activeAndroid-sebbia.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/sebbiatask.iml" filepath="$PROJECT_DIR$/sebbiatask.iml" />
     </modules>
   </component>
 </project>

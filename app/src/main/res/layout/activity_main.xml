@@ -4,7 +4,7 @@
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.dyckster.sebbiatesttask.ui.MainActivity">
+    tools:context=".app.ui.MainActivity">
 
     <FrameLayout
         android:id="@+id/fragment_parent"
