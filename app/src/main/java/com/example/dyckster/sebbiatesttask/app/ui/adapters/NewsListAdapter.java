@@ -8,6 +8,8 @@ import com.example.dyckster.sebbiatesttask.R;
 import com.example.dyckster.sebbiatesttask.app.model.PageableModel;
 import com.example.dyckster.sebbiatesttask.app.model.news.CompactNews;
 
+import java.util.List;
+
 /**
  * Created by dombaev_yury on 26.12.16.
  */
@@ -24,4 +26,10 @@ public class NewsListAdapter extends PageableAdapter {
         return new NewsItemViewHolder(inflater.inflate(R.layout.item_listed_news, parent, false));
 
     }
+
+    @Override
+    public void swapModel(List items) {
+        notifyDataSetChanged();
+    }
+
 }

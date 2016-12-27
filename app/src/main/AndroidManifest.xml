@@ -22,7 +22,10 @@
             android:name="AA_MODELS"
             android:value="com.example.dyckster.sebbiatesttask.app.model.news.Category,
             com.example.dyckster.sebbiatesttask.app.model.news.CategoriesList,
-            com.example.dyckster.sebbiatesttask.app.model.news.CategoriesList$CategoryConnections"/>
+            com.example.dyckster.sebbiatesttask.app.model.news.CategoriesList$CategoryConnections,
+            com.example.dyckster.sebbiatesttask.app.model.news.CompactNews,
+            com.example.dyckster.sebbiatesttask.app.model.news.NewsList,
+            com.example.dyckster.sebbiatesttask.app.model.news.NewsList$NewsConnection"/>
     </application>
 
 

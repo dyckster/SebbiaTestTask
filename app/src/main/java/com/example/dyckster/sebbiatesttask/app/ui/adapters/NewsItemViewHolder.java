@@ -6,6 +6,7 @@ import android.widget.TextView;
 
 import com.example.dyckster.sebbiatesttask.R;
 import com.example.dyckster.sebbiatesttask.app.model.news.CompactNews;
+import com.example.dyckster.sebbiatesttask.app.ui.MainActivity;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -43,6 +44,8 @@ public class NewsItemViewHolder extends ListItemsViewHolder<CompactNews> impleme
 
     @Override
     public void onClick(View v) {
-
+        MainActivity.FragmentType fragmentType = MainActivity.FragmentType.NEWS_DETAILS;
+        fragmentType.setId(newsId);
+        ((MainActivity)v.getContext()).setCurrentScreen(fragmentType,true);
     }
 }

@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".app.ui.NewsDetailsFragment">
+    tools:context=".app.ui.NewsDetailFragment">
 
     <TextView
         android:id="@+id/text_news_title"

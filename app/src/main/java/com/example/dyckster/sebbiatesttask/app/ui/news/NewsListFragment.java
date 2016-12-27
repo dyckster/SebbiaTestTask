@@ -20,19 +20,25 @@ public class NewsListFragment extends PageableListFragment<NewsList> {
     public static final String CATEGORY_ID = "category_id";
     private Category category;
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public static NewsListFragment newInstance(long categoryId) {
 
-
+        Bundle args = new Bundle();
+        args.putLong(CATEGORY_ID, categoryId);
+        NewsListFragment fragment = new NewsListFragment();
+        fragment.setArguments(args);
+        return fragment;
     }
+
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         // TODO: 26.12.16 set title from category
-        setTitle("123456");
+        setTitle(category.getName());
         shouldDisplayHomeUp(true);
+
+        adapter = new NewsListAdapter(updatableModel);
+        recyclerView.setAdapter(adapter);
     }
 
     @Override
@@ -42,16 +48,15 @@ public class NewsListFragment extends PageableListFragment<NewsList> {
 
     @Override
     protected NewsList getUpdatableModel() {
-        int categoryId = getActivity().getIntent().getIntExtra(CATEGORY_ID, -1);
-        category = Category.fromId(categoryId);
+        long categoryId = getArguments().getLong(CATEGORY_ID);
+        category = Category.fromId((int) categoryId);
 
-        return new NewsList(category);
+        return NewsList.getInstance(category);
 
     }
 
     @Override
     protected void updateView(NewsList updatableModel) {
-        adapter = new NewsListAdapter(updatableModel);
-        recyclerView.setAdapter(adapter);
+        adapter.swapModel(updatableModel.getItems());
     }
 }

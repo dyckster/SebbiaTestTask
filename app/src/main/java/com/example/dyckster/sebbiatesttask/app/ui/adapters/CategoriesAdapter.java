@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.example.dyckster.sebbiatesttask.R;
 import com.example.dyckster.sebbiatesttask.app.model.news.Category;
+import com.example.dyckster.sebbiatesttask.app.ui.MainActivity;
 import com.example.dyckster.sebbiatesttask.app.ui.OnFragmentChange;
 
 import java.util.ArrayList;
@@ -19,11 +20,15 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
 
     private List<Category> categories;
     private OnFragmentChange onFragmentChangeListener;
-
+    private long categoryId;
 
     public CategoriesAdapter(List<Category> categories, OnFragmentChange onFragmentChangeListener) {
         this.categories = categories;
         this.onFragmentChangeListener = onFragmentChangeListener;
+    }
+
+    public CategoriesAdapter(List<Category> categories) {
+        this.categories = categories;
     }
 
     @Override
@@ -33,13 +38,17 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
     }
 
     @Override
-    public void onBindViewHolder(CategoriesAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(CategoriesAdapter.ViewHolder holder, final int position) {
         final Category category = categories.get(position);
+        categoryId = category.getCategoryId();
         holder.categoryTitle.setText(category.getName());
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               // onFragmentChangeListener.onFragmentChange(new NewsListFragment().newInstance(category.getCategoryId()));
+                MainActivity.FragmentType fragmentType = MainActivity.FragmentType.NEWS_LIST;
+                fragmentType.setId(categories.get(position).getCategoryId());
+                // TODO: 27.12.16 check context instance
+                ((MainActivity)view.getContext()).setCurrentScreen(fragmentType,true);
             }
         });
 
@@ -60,5 +69,10 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
             cardView = (CardView) itemView.findViewById(R.id.category_card);
             categoryTitle = (TextView) itemView.findViewById(R.id.category_title);
         }
+    }
+
+    public void swapData(List<Category> categories) {
+        this.categories = categories;
+        notifyDataSetChanged();
     }
 }

@@ -63,7 +63,7 @@ public abstract class PageableAdapter<E extends CompactNews>
                     break;
             }
         }
-        return null;
+        return viewHolder;
     }
 
     protected Context getContext() {
@@ -97,7 +97,7 @@ public abstract class PageableAdapter<E extends CompactNews>
     @Override
     public long getItemId(int position) {
         if (position < elements.size()) {
-            return elements.get(position).getId();
+            return elements.get(position).getNewsId();
         } else {
             return -1;
         }
@@ -135,5 +135,6 @@ public abstract class PageableAdapter<E extends CompactNews>
     }
     protected abstract ListItemsViewHolder getViewHolder(ViewGroup parent, CompactNews.ViewType orderType);
 
+    public abstract void swapModel(List<UpdatableModel> items);
 
 }

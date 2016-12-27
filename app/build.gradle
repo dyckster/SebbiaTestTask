@@ -19,9 +19,9 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-    productFlavors{
-        development{
-            buildConfigField "String","BASE_URL","\"http://testtask.sebbia.com\""
+    productFlavors {
+        development {
+            buildConfigField "String", "BASE_URL", "\"http://testtask.sebbia.com\""
             buildConfigField "Boolean", "LOG_TO_LOGCAT", "true"
             buildConfigField "Boolean", "LOG_TO_FILE", "true"
             applicationId "com.example.dyckster.sebbiatesttask.develop"
@@ -37,8 +37,8 @@ android {
     }
 }
 
-ext{
-    supportlibversion="25.1.0"
+ext {
+    supportlibversion = "25.1.0"
 }
 
 dependencies {
@@ -52,17 +52,18 @@ dependencies {
     compile "com.android.support:support-v4:$supportlibversion"
     compile "com.android.support:recyclerview-v7:$supportlibversion"
     compile "com.android.support:cardview-v7:$supportlibversion"
-    compile group: 'org.apache.httpcomponents' , name: 'httpclient-android' , version: '4.3.5'
-    compile (group: 'org.apache.httpcomponents' , name: 'httpmime' , version: '4.3.5') {
+    compile group: 'org.apache.httpcomponents', name: 'httpclient-android', version: '4.3.5'
+    compile(group: 'org.apache.httpcomponents', name: 'httpmime', version: '4.3.5') {
         exclude module: 'org.apache.httpcomponents:httpclient'
     }
-    compile 'com.jakewharton:butterknife:7.0.1'
 
 
-    testCompile 'junit:junit:4.12'
-    compile 'net.danlew:android.joda:2.9.5'
     compile project(':activeAndroid-sebbia')
 
+    compile 'com.jakewharton:butterknife:7.0.1'
+    compile 'net.danlew:android.joda:2.9.5'
+    compile 'com.android.support:support-v4:25.1.0'
+    testCompile 'junit:junit:4.12'
 }
 repositories {
     flatDir {

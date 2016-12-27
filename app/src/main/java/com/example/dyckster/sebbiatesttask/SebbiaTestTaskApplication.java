@@ -32,7 +32,7 @@ public class SebbiaTestTaskApplication extends Application {
         ActiveAndroid.initialize(new Configuration
                 .Builder(this)
                 .setDatabaseName("sebbiatask.db")
-                .setDatabaseVersion(3)
+                .setDatabaseVersion(4)
                 .create(), false);
     }
 

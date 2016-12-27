@@ -246,10 +246,6 @@ public abstract class UpdatableModel extends Model {
             return true;
         if (needLazyLoading())
             return true;
-        // Comment by: dombaev_yury
-        // Вопрос про код стайл
-        // if (){...;} или if()...;
-        // for (){...;} или for()...;
         if (System.currentTimeMillis() > (lastUpdated + TimeUnit.MINUTES.toMillis(5)))
             return true;
         return System.currentTimeMillis() > (lastUpdated + getUpdatePeriod());

@@ -24,8 +24,7 @@ public abstract class UpdatableListFragment<T extends UpdatableList> extends Upd
         final View rootView = inflater.inflate(R.layout.updatable_list, container, false);
 
         recyclerView = (RecyclerView) rootView.findViewById(R.id.items);
-
-        layoutManager = new LinearLayoutManager(getActivity());
+        layoutManager = new LinearLayoutManager(getContext());
 
         recyclerView.setLayoutManager(layoutManager);
 
@@ -50,7 +49,7 @@ public abstract class UpdatableListFragment<T extends UpdatableList> extends Upd
     @Override
     protected void hideContent() {
         super.hideContent();
-        recyclerView.setVisibility(View.GONE);
+        //recyclerView.setVisibility(View.GONE);
     }
 
     @Override

@@ -14,7 +14,7 @@ import org.json.JSONObject;
  * Created by dombaev_yury on 26.12.16.
  */
 @SuppressWarnings("WeakerAccess")
-@Table(name = "compact_news")
+@Table(name = "news")
 public class CompactNews extends Model {
     @Column(name = "news_id")
     int newsId;
@@ -25,7 +25,14 @@ public class CompactNews extends Model {
     @Column(name = "description")
     String shortDesc;
 
-    public enum ViewType{
+    public String getFullDescription() {
+        return fullDescription;
+    }
+
+    @Column
+    String fullDescription;
+
+    public enum ViewType {
         COMMON,
         LOAD_MORE
     }
@@ -47,7 +54,7 @@ public class CompactNews extends Model {
     }
 
     public static CompactNews fromNewsId(int newsId) {
-        return new Select().from(News.class).where("news_id = ?", newsId).executeSingle();
+        return new Select().from(CompactNews.class).where("news_id = ?", newsId).executeSingle();
     }
 
 
@@ -66,6 +73,10 @@ public class CompactNews extends Model {
         this.title = ParseUtils.objToStr(object.get("title"));
         this.shortDesc = ParseUtils.objToStr(object.get("shortDescription"));
         this.date = TimeUtil.getFormattedDate(ParseUtils.objToStr(object.get("date")));
+        if (object.has("fullDescription")) {
+        this.fullDescription = ParseUtils.objToStr(object.get("fullDescription"));
+        }
+        this.save();
         // TODO: 26.12.16 use .has
     }
 }

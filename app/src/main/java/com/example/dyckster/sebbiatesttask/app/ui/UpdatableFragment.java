@@ -11,6 +11,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.example.dyckster.sebbiatesttask.R;
@@ -52,7 +53,31 @@ public abstract class UpdatableFragment<T extends UpdatableModel> extends BaseFr
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView = (ViewGroup) inflater.inflate(getLayout(), container, false);
-        return super.onCreateView(inflater, container, savedInstanceState);
+
+        mainContainer = (FrameLayout) rootView.findViewById(R.id.main_container);
+
+        emptyData = inflater.inflate(getEmptyDataLayout(), mainContainer, false);
+        emptyData.setVisibility(View.GONE);
+        mainContainer.addView(emptyData);
+
+        noDataOfflineModeIndicator = inflater.inflate(R.layout.no_data_offline_mode_indicator, mainContainer, false);
+        noDataOfflineModeIndicator.setVisibility(View.GONE);
+        mainContainer.addView(noDataOfflineModeIndicator);
+
+        errorView = inflater.inflate(getErrorLayout(), mainContainer, false);
+        errorView.setVisibility(View.GONE);
+        mainContainer.addView(errorView);
+
+        swipeRefreshLayout = (SwipeRefreshLayout) mainContainer.findViewById(R.id.swipe_container);
+        swipeRefreshLayout.addView(getContentView(inflater, swipeRefreshLayout, savedInstanceState));
+        swipeRefreshLayout.setVisibility(View.VISIBLE);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                updatableModel.update(false);
+            }
+        });
+        return rootView;
 
     }
 
@@ -60,7 +85,7 @@ public abstract class UpdatableFragment<T extends UpdatableModel> extends BaseFr
         return R.layout.updatable;
     }
 
-    protected int getEmtyDataLayout() {
+    protected int getEmptyDataLayout() {
         return R.layout.empty_data;
     }
 
@@ -75,21 +100,28 @@ public abstract class UpdatableFragment<T extends UpdatableModel> extends BaseFr
     @Override
     public void onStart() {
         super.onStart();
+        getActivity().registerReceiver(connectionReciever, connectivityChangeFilter);
+
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        updatableModel.addListener(this);
+        updateModel();
+        refresh();
     }
 
     @Override
     public void onPause() {
         super.onPause();
+        updatableModel.removeListener(this);
     }
 
     @Override
     public void onStop() {
         super.onStop();
+        getActivity().unregisterReceiver(connectionReciever);
     }
 
     protected abstract boolean modelIsEmpty();

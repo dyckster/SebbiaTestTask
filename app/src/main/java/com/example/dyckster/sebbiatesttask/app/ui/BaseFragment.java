@@ -1,7 +1,7 @@
 package com.example.dyckster.sebbiatesttask.app.ui;
 
-import android.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.view.View;
 

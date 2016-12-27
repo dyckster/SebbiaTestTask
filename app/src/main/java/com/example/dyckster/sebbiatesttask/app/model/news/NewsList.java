@@ -1,10 +1,15 @@
 package com.example.dyckster.sebbiatesttask.app.model.news;
 
+import android.database.sqlite.SQLiteException;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
+import android.support.annotation.StringDef;
 
 import com.activeandroid.sebbia.ActiveAndroid;
+import com.activeandroid.sebbia.annotation.Column;
+import com.activeandroid.sebbia.annotation.Table;
 import com.activeandroid.sebbia.model.OneToManyRelation;
+import com.activeandroid.sebbia.query.Select;
 import com.example.dyckster.sebbiatesttask.app.api.Api;
 import com.example.dyckster.sebbiatesttask.app.api.Method;
 import com.example.dyckster.sebbiatesttask.app.api.Request;
@@ -17,11 +22,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
-
 
 public class NewsList extends PageableModel<CompactNews> {
 
@@ -32,16 +37,21 @@ public class NewsList extends PageableModel<CompactNews> {
         this.category = category;
     }
 
-    private Category category;
+    Category category;
+    @Column(name = "categoryId")
+    int categoryId;
 
-    public NewsList(Category category){
+    public NewsList(Category category) {
         this.category = category;
+        this.categoryId = category.getCategoryId();
     }
 
     public List<CompactNews> getList() {
         return news;
     }
 
+    public NewsList() {
+    }
 
     @Override
     public boolean hasMore() {
@@ -71,7 +81,11 @@ public class NewsList extends PageableModel<CompactNews> {
 
     @Override
     public List<CompactNews> getItems() {
-        return news;
+        if (news == null) {
+            return Collections.emptyList();
+        } else {
+            return news;
+        }
     }
 
     @Override
@@ -82,9 +96,10 @@ public class NewsList extends PageableModel<CompactNews> {
 
     private Request getRequest(int nextPage) throws JSONException {
         Map<String, String> param = new HashMap<>();
-        param.put("id", String.valueOf(category.getCategoryId()));
         param.put("page", String.valueOf(nextPage));
-        return new Request(Method.GET_NEWS_LIST, param);
+        List<String> urlParams = new ArrayList<>();
+        urlParams.add(String.valueOf(categoryId));
+        return new Request(Method.GET_NEWS_LIST, urlParams, param);
     }
 
     @Override
@@ -115,7 +130,8 @@ public class NewsList extends PageableModel<CompactNews> {
                 this.news.addAll(news);
             }
             this.save();
-            OrderConnections.setRelations(OrderConnections.class, NewsList.this, this.news);
+            NewsConnection.setRelations(NewsConnection.class, NewsList.this, this.news);
+            ActiveAndroid.setTransactionSuccessful();
         } catch (Exception ex) {
             Log.e(Log.DEFAULT_TAG, "Error!" + ex);
         } finally {
@@ -123,17 +139,28 @@ public class NewsList extends PageableModel<CompactNews> {
         }
     }
 
-    public static class OrderConnections extends OneToManyRelation<NewsList, CompactNews> {
+    public static class NewsConnection extends OneToManyRelation<NewsList, CompactNews> {
 
     }
 
-    public static NewsList getInstance() {
-
-        return null;
-    }
 
     public static NewsList getInstance(Category category) {
-        return null;
+        NewsList newsList = null;
+
+        newsList = fromCategory(category);
+
+        if (newsList == null) {
+            newsList = new NewsList(category);
+            newsList.save();
+        } else {
+            newsList.news = NewsConnection.getRelations(NewsConnection.class, newsList);
+        }
+
+        return newsList;
+    }
+
+    private static NewsList fromCategory(Category category) {
+        return new Select().from(NewsList.class).where("categoryId = ?", category.getCategoryId()).executeSingle();
     }
 }
 

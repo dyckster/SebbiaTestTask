@@ -45,6 +45,10 @@ public class Request {
         this(method, urlPathnameParams, null, null);
     }
 
+    public Request(Method method, List<String> urlPathnameParams, Map<String, String> params) {
+        this(method, urlPathnameParams, params, null);
+    }
+
     public Request(Method method, JSONObject jsonData) {
         this(method, null, null, jsonData);
     }
@@ -128,7 +132,7 @@ public class Request {
 //            url.append("?");
 //            url.append(paramsToString(token));
 //        } else {
-        url.append("?");
+        //url.append("?");
 //        }
 
 //        boolean allowedPostWithParams = (method.equals(Method.POST_ORDER_START_TRACKING) ||
@@ -140,7 +144,7 @@ public class Request {
                 //        || allowedPostWithParams
         )) {
             if (params != null) {
-                url.append("&");
+                url.append("?");
                 url.append(paramsToString(params));
             }
         }
